@@ -218,6 +218,25 @@ When asked to "update dependencies":
 
 ---
 
+## Git & GitHub
+
+**Repository:** Initialized with `.gitignore` excluding confidentials: `.env`, `*.db`, `Clerk-*.txt`, `.venv/`, `node_modules/`, logs, caches.
+
+**Push to GitHub:**
+1. Create a new repository on GitHub (github.com → New repository, name e.g. `StrikeEdge`).
+2. Add remote and push:
+   ```powershell
+   cd StrikeEdge
+   git remote add origin https://github.com/YOUR_USERNAME/StrikeEdge.git
+   git branch -M main
+   git push -u origin main
+   ```
+3. For existing repo: `git remote set-url origin https://github.com/YOUR_USERNAME/StrikeEdge.git`
+
+**Never commit:** `.env`, `Clerk-*.txt`, `*.db`, or any file with API keys, secrets, or credentials. Use `.env.example` as template.
+
+---
+
 ## Known Issues
 
 | Issue | Symptom | Workaround |
