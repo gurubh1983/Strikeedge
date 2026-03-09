@@ -1,0 +1,122 @@
+# Checklist Progress (Manual Tick Sheet)
+
+This file maps the implemented code to the checklist visible in your screenshots, so you can tick rows manually.
+
+## Completed in Code
+
+- Database modeling and initialization
+  - Models for instruments, candles, indicators, screeners, scan results, agent jobs
+  - `init_db` + migrations + SQLite validation tests
+- File cache
+  - `FileCache` with set/get/delete + TTL behavior and unit tests
+- Fyers integration foundations
+  - scrip master fetcher, parsing, NFO/OPT filters, expiry and strike-range filters, DB sync
+- Candle fetch and parsing
+  - historical fetch adapter + DataFrame conversion + tests
+- Tick/candle processing
+  - tick handler buffer, OHLCV build, date-range retrieval, unit tests
+  - dedicated `strike_candles` table model + migration (`012_strike_candles.sql`)
+  - `StrikeCandleRepository` (upsert/list) for strike symbol candle persistence
+  - symbol/token resolution for strike routes (`InstrumentQueryService.resolve_token`)
+  - `GET /api/v1/strikes/{symbol}/candles` endpoint
+  - strike candle OHLC accuracy + symbol->token mapping API tests
+- WebSocket ingestion
+  - reconnect-capable WS client + subscription payload support
+  - ingest runner script and scheduler script
+- Indicators
+  - RSI, EMA, MACD line/signal/histogram modules + tests
+- Screener
+  - scanner class + condition engine, stored-indicator scan execution, persisted scan jobs
+  - multi-condition groups (`AND`/`OR`) and crossover operators
+  - screener CRUD APIs
+- Signals
+  - `SignalDetector` crossover detection
+  - persisted `signal_events` + `/api/v1/signals` endpoint
+- Options chain (3.1.x)
+  - options chain schema and migration (`options_chain` table)
+  - Fyers options chain fetch/parse/store flow
+  - periodic refresh scheduler script
+  - `GET /api/v1/options/chain` endpoint with optional refresh
+  - parsing and endpoint accuracy tests
+- Options advanced filters (phase 3 prep)
+  - OI/IV/PCR columns and aggregation metrics
+  - `GET /api/v1/options/metrics` endpoint
+  - scanner rule support for `iv`, `oi`, `pcr`
+- Options analytics (phase 3)
+  - Greeks calculator service + `GET /api/v1/options/greeks`
+  - `strike_greeks` persistence table + batch calculation endpoint (`POST /api/v1/options/greeks/calculate`)
+  - batch job runner script (`backend/scripts/run_strike_greeks_batch.py`)
+  - strike symbol greeks endpoint (`GET /api/v1/strikes/{symbol}/vol/greeks`)
+  - underlying/options price correlation endpoint (`GET /api/v1/options/correlation`)
+  - analytics and correlation API tests
+- Open interest and volume tracking (phase 3)
+  - `oi_history` table for OI snapshots and change%
+  - OI history capture on options-chain refresh/upsert
+  - OI heatmap endpoint (`GET /api/v1/options/oi/heatmap`)
+  - OI spikes endpoint (`GET /api/v1/options/oi/spikes`)
+  - OI/greeks phase tests (`test_phase3_options_oi_and_greeks.py`)
+  - OI change and change% accuracy regression test across consecutive refreshes
+- Options filter expansion (phase 3)
+  - screener rule support for `delta`, `gamma`, `oi_change_pct`, `volume`, `moneyness`, `expiry_days`
+  - scan API regression tests for expanded option filters
+  - filter-combination regression test for phase 3 option filters
+- User system (phase 4 prep)
+  - watchlists table models + API flow
+  - favorites table models + API flow
+  - watchlists/favorites integration tests
+- Alert delivery (phase 4 prep)
+  - notification preferences (email/push) API flow
+  - notification outbox queue and dispatch endpoint
+  - alert creation integrated with outbox enqueue
+  - notifications integration tests
+- AI/ML and marketplace (phase 5 prep)
+  - sentiment endpoint (`GET /api/v1/ai/sentiment/{symbol}`)
+  - pattern endpoint (`GET /api/v1/ai/patterns/{symbol}`)
+  - strategy marketplace publish/list/share APIs
+  - marketplace and AI endpoint tests
+- API
+  - instrument/strike/scan/chart/strategy/workspace/alerts/audit/ai endpoints
+  - persisted `/scan/{id}/results`
+  - underlying-aware scan filters and incremental websocket scan deltas
+  - cursor pagination endpoints for alerts and audit events
+  - idempotency + rate-limit + error envelope + tracing + metrics
+- Hardening (Phase 0.2)
+  - JWT/Clerk-capable auth provider
+  - Alembic migration scaffold + baseline revision
+  - typed persistence read DTO models
+  - service-level metrics counters and prometheus metrics export endpoint
+  - idempotency TTL-based fetch semantics + cleanup script
+  - redis-ready rate-limit store abstraction
+- Verification and documentation
+  - explicit `NIFTY_24000_CE` RSI pipeline test
+  - component inventory documentation
+  - phase 1 sign-off document
+- Frontend scanner UX
+  - Next.js + Tailwind app scaffold
+  - shadcn-compatible UI primitives + config
+  - screener builder with underlying/indicator/operator/timeframe selectors
+  - results table sorting/filtering/pagination + websocket updates
+  - chart popup with strike candles and EMA/RSI/MACD overlays
+- Frontend options UI (phase 3)
+  - options chain workbench (`/stocks`) with call/put columns
+  - Greeks columns and OI/greeks value color coding
+  - options filter controls (IV, delta, gamma, OI change %, volume)
+  - OI heatmap panel
+  - strike symbol chart on click
+  - responsive mobile card layout + desktop overflow-safe table layout
+- Workflow/performance validation
+  - full workflow validator script (`scripts/test_full_workflow.py`)
+  - performance threshold runner (`scripts/performance_test.py`)
+  - options 48-strike performance script (`scripts/performance_test_options_48.py`)
+  - options full integration validator (`scripts/test_options_full_flow.py`)
+  - phase 3 sign-off document (`docs/enterprise/phase3-signoff.md`)
+  - options UI feature doc (`docs/ui/options-ui-features.md`)
+
+## Pending Manual/External
+
+- Fyers account-specific setup and credential generation
+- Broker-authenticated live websocket endpoint wiring is implemented in code and becomes active when Angel credentials are provided via environment variables
+- Production infra provisioning structure now exists for dev/staging/preprod/prod; live AWS apply remains an operator run step
+- Rollback and post-deploy validation are now scripted (`scripts/aws_db_snapshot.py`, `scripts/post_deploy_health_check.py`); execution remains an operator run step
+- CI workflow for post-deploy validation is available (`.github/workflows/post-deploy-health.yml`) and can be triggered per environment URL
+- Single-command release orchestration helper exists (`scripts/release_orchestrator.py`) for tests + terraform promote + post-deploy checks

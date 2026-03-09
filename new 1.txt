@@ -1,0 +1,16 @@
+notepad pyproject.toml
+```
+
+This will open the file in Notepad. Now **add these lines at the very end** of the file:
+```
+[tool.setuptools.packages.find]
+include = ["app*"]
+```
+
+So your file should look like this at the end:
+```
+[project.optional-dependencies]
+research = ["chromadb>=0.4.0"]
+
+[tool.setuptools.packages.find]
+include = ["app*"]

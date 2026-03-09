@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS watchlists (
+  id VARCHAR(36) PRIMARY KEY,
+  user_id VARCHAR(128) NOT NULL,
+  name VARCHAR(128) NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS watchlist_items (
+  id VARCHAR(36) PRIMARY KEY,
+  watchlist_id VARCHAR(36) NOT NULL,
+  token VARCHAR(64) NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS favorites (
+  id VARCHAR(36) PRIMARY KEY,
+  user_id VARCHAR(128) NOT NULL,
+  token VARCHAR(64) NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);

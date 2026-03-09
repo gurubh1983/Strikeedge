@@ -1,0 +1,33 @@
+CREATE TABLE IF NOT EXISTS strategies (
+  id VARCHAR(36) PRIMARY KEY,
+  owner_id VARCHAR(128) NOT NULL,
+  name VARCHAR(256) NOT NULL,
+  rules JSON NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS workspaces (
+  id VARCHAR(36) PRIMARY KEY,
+  owner_id VARCHAR(128) NOT NULL,
+  name VARCHAR(256) NOT NULL,
+  layout JSON NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS alerts (
+  id VARCHAR(36) PRIMARY KEY,
+  user_id VARCHAR(128) NOT NULL,
+  name VARCHAR(256) NOT NULL,
+  rule JSON NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS audit_events (
+  id VARCHAR(36) PRIMARY KEY,
+  entity_type VARCHAR(64) NOT NULL,
+  entity_id VARCHAR(64) NOT NULL,
+  action VARCHAR(64) NOT NULL,
+  actor_id VARCHAR(128) NOT NULL,
+  payload JSON NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);

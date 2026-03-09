@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS strike_candles (
+  id VARCHAR(36) PRIMARY KEY,
+  symbol VARCHAR(128) NOT NULL,
+  token VARCHAR(64) NOT NULL,
+  timeframe VARCHAR(8) NOT NULL,
+  timestamp TIMESTAMP NOT NULL,
+  open FLOAT NOT NULL,
+  high FLOAT NOT NULL,
+  low FLOAT NOT NULL,
+  close FLOAT NOT NULL,
+  volume INTEGER NOT NULL DEFAULT 0
+);

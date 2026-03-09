@@ -1,0 +1,36 @@
+name: post-deploy-health
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment"
+        required: true
+        type: choice
+        options:
+          - dev
+          - staging
+          - preprod
+          - prod
+      base_url:
+        description: "Base API URL to validate"
+        required: true
+        type: string
+
+jobs:
+  validate-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install httpx
+      - name: Post deploy endpoint checks
+        run: python scripts/post_deploy_health_check.py --base-url "${{ inputs.base_url }}"
+      - name: Smoke load check
+        run: python scripts/performance_test.py --base-url "${{ inputs.base_url }}" --requests 100 --max-p95-ms 1200
+      - name: Full workflow check
+        run: python scripts/test_full_workflow.py --base-url "${{ inputs.base_url }}"

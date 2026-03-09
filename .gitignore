@@ -1,0 +1,74 @@
+# ============================================================
+# StrikeEdge – Confidential & Generated Files
+# Never commit .env or credentials to version control
+# ============================================================
+
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.staging
+*.pem
+*.key
+secrets/
+*.secret
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+
+# Node
+node_modules/
+.next/
+out/
+.nuxt/
+dist/
+.turbo/
+
+# Database & Data
+*.db
+*.sqlite
+*.sqlite3
+strikeedge.db
+
+# Logs & Caches
+logs/
+*.log
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+*.cache
+
+# IDE & OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Build & Deploy
+*.tgz
+*.tar.gz
+.cache/
+
+# Fyers token (stored in ~/.strikeedge/ – outside repo; listed for awareness)
+# fyers_token.json
+
+# Optional: Keep .env.example for developers
+!.env.example

@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS oi_history (
+  id VARCHAR(36) PRIMARY KEY,
+  underlying VARCHAR(64) NOT NULL,
+  expiry VARCHAR(32) NOT NULL,
+  strike_price FLOAT NOT NULL,
+  call_oi INTEGER NOT NULL DEFAULT 0,
+  put_oi INTEGER NOT NULL DEFAULT 0,
+  total_oi INTEGER NOT NULL DEFAULT 0,
+  total_oi_change INTEGER NOT NULL DEFAULT 0,
+  total_oi_change_pct FLOAT NOT NULL DEFAULT 0.0,
+  recorded_at TIMESTAMP NOT NULL
+);
