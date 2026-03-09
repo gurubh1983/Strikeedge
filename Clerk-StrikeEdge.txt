@@ -1,4 +1,0 @@
-Clerk-StrikeEdge
-
-Publisher Key: pk_test_YnJhdmUtYm9uZWZpc2gtNTAuY2xlcmsuYWNjb3VudHMuZGV2JA
-Secret Key: sk_test_EkfI2ycShKyqMHtDV9HrIIkpjsWuwTXBL9fmn7XJUo

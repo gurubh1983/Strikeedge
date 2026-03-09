@@ -15,6 +15,11 @@
 secrets/
 *.secret
 
+# Credential files (never commit)
+Clerk-*.txt
+*-credentials*.txt
+**/credentials*.txt
+
 # Python
 __pycache__/
 *.py[cod]
@@ -61,6 +66,7 @@ htmlcov/
 *.swo
 .DS_Store
 Thumbs.db
+~$*
 
 # Build & Deploy
 *.tgz
