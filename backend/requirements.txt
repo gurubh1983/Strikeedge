@@ -1,0 +1,17 @@
+# StrikeEdge backend dependencies for Render deployment
+# Pin versions from pyproject.toml for reproducible builds
+fastapi>=0.115.0
+uvicorn[standard]>=0.31.0
+pydantic>=2.9.0
+pydantic-settings>=2.4.0
+sqlalchemy>=2.0.35
+alembic>=1.14.0
+httpx>=0.28.0
+fyers-apiv3
+PyJWT[crypto]>=2.10.0
+redis>=5.0.0
+py_vollib
+websockets>=15.0.0
+pandas>=2.2.0
+beautifulsoup4>=4.12.0
+apscheduler>=3.10.0

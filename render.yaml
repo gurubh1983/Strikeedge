@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: strikeedge-api
+    runtime: python
+    region: oregon
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && uvicorn app.main:create_app --factory --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: STRIKEEDGE_ENVIRONMENT
+        value: production
+      - key: STRIKEEDGE_DATABASE_URL
+        value: sqlite:///./strikeedge.db
+      - key: STRIKEEDGE_FYERS_REDIRECT_URI
+        sync: false
